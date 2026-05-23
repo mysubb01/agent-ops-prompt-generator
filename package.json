@@ -1,6 +1,6 @@
 {
   "name": "agent-ops-prompt-generator",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Local-first Korean prompt generator for AI coding agent operations workflows.",
   "license": "MIT",
   "bin": {
