@@ -12,7 +12,7 @@ Use it for:
 
 ## Live Tool
 
-GitHub Pages URL will be added after deployment.
+https://mysubb01.github.io/agent-ops-prompt-generator/
 
 ## Privacy
 
