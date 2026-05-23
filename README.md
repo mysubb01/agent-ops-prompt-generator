@@ -2,6 +2,13 @@
 
 A free, local-first browser and CLI tool that generates Korean prompts for AI coding agents during operations work.
 
+## Buy / Related Pack
+
+- Free browser tool: https://mysubb01.github.io/agent-ops-prompt-generator/
+- Full template-pack buy page: https://mysubb01.github.io/agent-ops-command-pack-teaser/buy.html
+- Purchase request: https://github.com/mysubb01/agent-ops-command-pack-teaser/issues/new?template=purchase-interest.yml
+- Suggested launch price for the full pack: 9 USD or equivalent
+
 Use it for:
 
 - Incident triage
