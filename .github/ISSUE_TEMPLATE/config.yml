@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Buy Agent Ops Command Pack
+    url: https://mysubb01.github.io/agent-ops-command-pack-teaser/buy.html
+    about: See price, contents, license, delivery, and purchase request instructions.
+  - name: Request purchase link
+    url: https://github.com/mysubb01/agent-ops-command-pack-teaser/issues/new?template=purchase-interest.yml
+    about: Open a purchase request for the full template pack.
+  - name: Free browser generator
+    url: https://mysubb01.github.io/agent-ops-prompt-generator/
+    about: Use the free local-first prompt generator in the browser.
