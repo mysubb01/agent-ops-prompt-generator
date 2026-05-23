@@ -1,0 +1,30 @@
+{
+  "name": "agent-ops-prompt-generator",
+  "version": "0.1.1",
+  "description": "Local-first Korean prompt generator for AI coding agent operations workflows.",
+  "license": "MIT",
+  "bin": {
+    "agent-ops-prompt": "bin/agent-ops-prompt.js"
+  },
+  "files": [
+    "bin",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mysubb01/agent-ops-prompt-generator.git"
+  },
+  "homepage": "https://mysubb01.github.io/agent-ops-prompt-generator/",
+  "bugs": {
+    "url": "https://github.com/mysubb01/agent-ops-prompt-generator/issues"
+  },
+  "keywords": [
+    "ai",
+    "prompt",
+    "developer-tools",
+    "korean",
+    "incident-response",
+    "code-review"
+  ]
+}
