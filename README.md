@@ -14,6 +14,10 @@ Use it for:
 
 https://mysubb01.github.io/agent-ops-prompt-generator/
 
+## Screenshot
+
+https://mysubb01.github.io/agent-ops-prompt-generator/assets/screenshot.png
+
 ## Privacy
 
 - No login
