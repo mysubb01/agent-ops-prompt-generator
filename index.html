@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="장애 대응, 배포 검증, 코드 리뷰, 데이터 수정용 한국어 AI 에이전트 명령문을 브라우저에서 바로 생성하는 무료 도구."
+    />
+    <title>Agent Ops Prompt Generator</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #172026;
+        --muted: #51606a;
+        --line: #d6dde3;
+        --paper: #ffffff;
+        --soft: #f4f7f8;
+        --field: #fbfcfd;
+        --primary: #0f766e;
+        --primary-dark: #0b4f4a;
+        --accent: #6d28d9;
+        --error: #b42318;
+        --focus: #2563eb;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: ui-sans-serif, "Avenir Next", "Segoe UI", sans-serif;
+        color: var(--ink);
+        background: var(--paper);
+        line-height: 1.55;
+      }
+
+      main {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 32px 0 56px;
+      }
+
+      header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 18px;
+        padding-bottom: 24px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .title h1 {
+        margin: 0 0 8px;
+        font-size: 34px;
+        line-height: 1.1;
+        letter-spacing: 0;
+      }
+
+      .title p {
+        max-width: 720px;
+        margin: 0;
+        color: var(--muted);
+        font-size: 17px;
+      }
+
+      .nav {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      a.button,
+      button {
+        appearance: none;
+        border: 1px solid var(--line);
+        background: var(--soft);
+        color: var(--ink);
+        min-height: 40px;
+        padding: 0 14px;
+        font: inherit;
+        font-weight: 760;
+        cursor: pointer;
+        text-decoration: none;
+      }
+
+      a.button.primary,
+      button.primary {
+        border-color: var(--primary);
+        background: var(--primary);
+        color: #ffffff;
+      }
+
+      a.button:focus-visible,
+      button:focus-visible,
+      select:focus-visible,
+      textarea:focus-visible,
+      input:focus-visible {
+        outline: 3px solid color-mix(in srgb, var(--focus) 28%, transparent);
+        outline-offset: 2px;
+      }
+
+      .workspace {
+        display: grid;
+        grid-template-columns: minmax(310px, 0.86fr) minmax(0, 1.14fr);
+        gap: 20px;
+        padding-top: 24px;
+      }
+
+      .panel {
+        border: 1px solid var(--line);
+        background: var(--paper);
+        padding: 18px;
+      }
+
+      .panel h2 {
+        margin: 0 0 16px;
+        font-size: 20px;
+        letter-spacing: 0;
+      }
+
+      .field {
+        display: grid;
+        gap: 8px;
+        margin-bottom: 14px;
+      }
+
+      label {
+        font-weight: 760;
+        font-size: 14px;
+      }
+
+      select,
+      textarea,
+      input {
+        width: 100%;
+        border: 1px solid var(--line);
+        background: var(--field);
+        color: var(--ink);
+        font: inherit;
+        padding: 10px 11px;
+      }
+
+      textarea {
+        min-height: 118px;
+        resize: vertical;
+      }
+
+      .row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+
+      .output {
+        min-height: 420px;
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        gap: 14px;
+      }
+
+      .status {
+        min-height: 24px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .status.error {
+        color: var(--error);
+      }
+
+      pre {
+        margin: 0;
+        padding: 16px;
+        border: 1px solid var(--line);
+        background: var(--soft);
+        white-space: pre-wrap;
+        word-break: keep-all;
+        overflow-wrap: anywhere;
+        font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+        font-size: 14px;
+        line-height: 1.7;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .note {
+        margin-top: 20px;
+        padding-top: 18px;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+      }
+
+      .note strong {
+        color: var(--ink);
+      }
+
+      @media (max-width: 840px) {
+        header,
+        .workspace {
+          grid-template-columns: 1fr;
+          display: grid;
+        }
+
+        .nav {
+          justify-content: flex-start;
+        }
+      }
+
+      @media (max-width: 560px) {
+        .title h1 {
+          font-size: 28px;
+        }
+
+        .row {
+          grid-template-columns: 1fr;
+        }
+
+        main {
+          width: min(100% - 24px, 1120px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <div class="title">
+          <h1>Agent Ops Prompt Generator</h1>
+          <p>상황을 고르면 AI 코딩 에이전트에게 바로 붙여 넣을 수 있는 한국어 운영 명령문을 생성합니다.</p>
+        </div>
+        <nav class="nav" aria-label="Project links">
+          <a class="button" href="https://github.com/mysubb01/agent-ops-prompt-generator">Source</a>
+          <a class="button primary" href="https://github.com/mysubb01/agent-ops-command-pack-teaser">Template Pack</a>
+        </nav>
+      </header>
+
+      <div class="workspace">
+        <section class="panel" aria-labelledby="builder-title">
+          <h2 id="builder-title">명령문 만들기</h2>
+
+          <div class="field">
+            <label for="scenario">상황</label>
+            <select id="scenario">
+              <option value="incident">장애 대응</option>
+              <option value="deploy">배포 검증</option>
+              <option value="review">코드 리뷰</option>
+              <option value="data">데이터 수정</option>
+              <option value="handoff">작업 인수인계</option>
+            </select>
+          </div>
+
+          <div class="row">
+            <div class="field">
+              <label for="repo">저장소/서비스</label>
+              <input id="repo" placeholder="예: my-app, admin-api" />
+            </div>
+            <div class="field">
+              <label for="risk">위험도</label>
+              <select id="risk">
+                <option value="높음">높음</option>
+                <option value="중간">중간</option>
+                <option value="낮음">낮음</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="context">현재 상황</label>
+            <textarea id="context" placeholder="증상, 에러 메시지, 바뀐 파일, 배포 URL, 확인한 사실을 적어줘."></textarea>
+          </div>
+
+          <div class="field">
+            <label for="constraints">제약/주의사항</label>
+            <textarea id="constraints" placeholder="예: 사용자 변경분 보존, 비밀값 출력 금지, 읽기 전용 확인 먼저, 배포 전 테스트 필수"></textarea>
+          </div>
+
+          <button class="primary" id="generate" type="button">생성</button>
+        </section>
+
+        <section class="panel output" aria-labelledby="output-title">
+          <h2 id="output-title">생성된 명령문</h2>
+          <div class="status" id="status">필드를 채우고 생성 버튼을 눌러줘.</div>
+          <pre id="result" aria-live="polite"></pre>
+          <div class="actions">
+            <button id="copy" type="button">복사</button>
+            <button id="reset" type="button">초기화</button>
+          </div>
+          <p class="note">
+            <strong>Privacy:</strong> 이 도구는 서버로 데이터를 보내지 않습니다. 더 많은 운영 템플릿은 Template Pack 링크에서 확인할 수 있습니다.
+          </p>
+        </section>
+      </div>
+    </main>
+
+    <script>
+      const templates = {
+        incident: {
+          title: "장애 대응",
+          goal: "장애 원인을 증거 기반으로 좁히고, 사용자 영향과 복구 경로를 분리해서 정리해줘.",
+          steps: [
+            "먼저 현재 재현 경로와 최근 변경 내역을 확인해줘.",
+            "프론트엔드, API, 데이터베이스, 외부 서비스 중 어느 구간에서 실패하는지 분리해줘.",
+            "추측은 [가정]으로 표시하고, 확인된 사실만 결론으로 써줘.",
+            "수정이 필요하면 가장 작은 변경으로 고치고 검증 명령을 실행해줘."
+          ]
+        },
+        deploy: {
+          title: "배포 검증",
+          goal: "배포 전후 상태를 비교하고, 실제 사용자 경로가 정상인지 확인해줘.",
+          steps: [
+            "로컬 변경 파일과 배포 대상 브랜치를 확인해줘.",
+            "빌드, 타입 검사, 핵심 테스트를 실행해줘.",
+            "배포 후 health endpoint와 주요 화면/API를 직접 확인해줘.",
+            "실패하면 원인, 영향 범위, 롤백 또는 재배포 선택지를 짧게 정리해줘."
+          ]
+        },
+        review: {
+          title: "코드 리뷰",
+          goal: "버그, 회귀 위험, 빠진 테스트를 우선순위대로 찾아줘.",
+          steps: [
+            "변경 의도와 실제 diff가 맞는지 먼저 확인해줘.",
+            "데이터 계약, 권한, 상태 전이, 에러 처리, 동시성 위험을 봐줘.",
+            "문제는 파일/라인 근거와 함께 심각도순으로 써줘.",
+            "문제가 없으면 남은 테스트 공백과 잔여 위험만 짧게 알려줘."
+          ]
+        },
+        data: {
+          title: "데이터 수정",
+          goal: "운영 데이터 변경 전 읽기 전용 증거를 먼저 만들고, 최소 변경 후 감사 흔적을 남겨줘.",
+          steps: [
+            "대상 레코드를 고유 식별자로 확인하고, 변경 전 값을 기록해줘.",
+            "금액, 권한, 상태값처럼 위험한 필드는 계산 출처를 분리해서 검증해줘.",
+            "변경은 하나의 명확한 쿼리나 마이그레이션으로 제한해줘.",
+            "변경 후 재조회와 감사 로그 확인까지 끝내줘."
+          ]
+        },
+        handoff: {
+          title: "작업 인수인계",
+          goal: "다음 사람이 바로 이어갈 수 있게 현재 상태, 완료 증거, 남은 리스크를 정리해줘.",
+          steps: [
+            "완료한 변경과 건드리지 않은 범위를 분리해줘.",
+            "실행한 명령과 결과를 핵심만 남겨줘.",
+            "아직 결정되지 않은 질문과 기본 선택지를 적어줘.",
+            "다음 행동을 순서대로 정리하되, 완료로 오해될 표현은 피해주세요."
+          ]
+        }
+      };
+
+      const scenario = document.querySelector("#scenario");
+      const repo = document.querySelector("#repo");
+      const risk = document.querySelector("#risk");
+      const context = document.querySelector("#context");
+      const constraints = document.querySelector("#constraints");
+      const result = document.querySelector("#result");
+      const status = document.querySelector("#status");
+      const generate = document.querySelector("#generate");
+      const copy = document.querySelector("#copy");
+      const reset = document.querySelector("#reset");
+
+      function line(value, fallback) {
+        const trimmed = value.trim();
+        return trimmed.length > 0 ? trimmed : fallback;
+      }
+
+      function buildPrompt() {
+        const template = templates[scenario.value];
+        const service = line(repo.value, "아직 지정하지 않음");
+        const situation = line(context.value, "현재 상황을 먼저 파악해줘.");
+        const caution = line(constraints.value, "비밀값을 출력하지 말고, 기존 사용자 변경분은 보존해줘.");
+
+        return `목표: ${template.title} 작업을 도와줘.
+
+대상: ${service}
+위험도: ${risk.value}
+
+현재 상황:
+${situation}
+
+제약/주의사항:
+${caution}
+
+해야 할 일:
+${template.goal}
+
+진행 방식:
+${template.steps.map((step, index) => `${index + 1}. ${step}`).join("\n")}
+
+응답 형식:
+- 확인한 증거
+- 판단
+- 실행한 변경 또는 제안
+- 검증 결과
+- 남은 리스크`;
+      }
+
+      generate.addEventListener("click", () => {
+        result.textContent = buildPrompt();
+        status.textContent = "명령문을 만들었어.";
+        status.classList.remove("error");
+      });
+
+      copy.addEventListener("click", async () => {
+        if (!result.textContent.trim()) {
+          status.textContent = "먼저 명령문을 생성해줘.";
+          status.classList.add("error");
+          return;
+        }
+
+        try {
+          await navigator.clipboard.writeText(result.textContent);
+          status.textContent = "복사했어.";
+          status.classList.remove("error");
+        } catch {
+          status.textContent = "브라우저가 자동 복사를 막았어. 직접 선택해서 복사해줘.";
+          status.classList.add("error");
+        }
+      });
+
+      reset.addEventListener("click", () => {
+        repo.value = "";
+        context.value = "";
+        constraints.value = "";
+        result.textContent = "";
+        status.textContent = "초기화했어.";
+        status.classList.remove("error");
+      });
+    </script>
+  </body>
+</html>
